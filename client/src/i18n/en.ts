@@ -88,6 +88,9 @@ export const en = {
     relatedTitle: 'Interconnected Vehicle Systems',
     quizTitle: 'Knowledge Check for this System',
     askAI: 'Ask AI Tutor about this system',
+    iceEngineTab: '4-Stroke ICE Cycle',
+    evMotorTab: 'EV Motor & Inverter',
+    subsystemLabTab: 'Interactive Vehicle Lab',
   },
   animations: {
     play: 'Play Simulation',

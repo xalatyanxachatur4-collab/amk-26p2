@@ -6,6 +6,7 @@ import { Breadcrumbs } from '../components/layout/Breadcrumbs.js';
 import { ErrorBoundary } from '../components/ui/ErrorBoundary.js';
 import { VehicleExplorer } from '../components/vehicle/VehicleExplorer.js';
 import { EngineCycleAnimation } from '../components/animations/EngineCycleAnimation.js';
+import { EVMotorAnimation } from '../components/animations/EVMotorAnimation.js';
 import { TransmissionGearAnimation } from '../components/animations/TransmissionGearAnimation.js';
 import { SuspensionAnimation } from '../components/animations/SuspensionAnimation.js';
 import { BrakingAnimation } from '../components/animations/BrakingAnimation.js';
@@ -38,6 +39,7 @@ export const SystemDetailPage: React.FC = () => {
   const navigate = useNavigate();
 
   const [activeViewMode, setActiveViewMode] = useState<'simulation' | 'lab'>('simulation');
+  const [engineSimMode, setEngineSimMode] = useState<'ice' | 'ev'>('ice');
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number>>({});
   const [revealedQuestions, setRevealedQuestions] = useState<Record<string, boolean>>({});
 
@@ -74,7 +76,7 @@ export const SystemDetailPage: React.FC = () => {
   const renderAnimation = () => {
     switch (system.id) {
       case 'engine':
-        return <EngineCycleAnimation />;
+        return engineSimMode === 'ice' ? <EngineCycleAnimation /> : <EVMotorAnimation />;
       case 'transmission':
         return <TransmissionGearAnimation />;
       case 'suspension':
@@ -153,29 +155,75 @@ export const SystemDetailPage: React.FC = () => {
               </div>
 
               {/* View Mode Toggle: Mechanism Simulation vs Subsystem Vehicle Explorer */}
-              <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold">
-                <button
-                  onClick={() => setActiveViewMode('simulation')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
-                    activeViewMode === 'simulation'
-                      ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-                  }`}
-                >
-                  <Activity className="w-3.5 h-3.5" />
-                  <span>Thermodynamic Cycle</span>
-                </button>
-                <button
-                  onClick={() => setActiveViewMode('lab')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
-                    activeViewMode === 'lab'
-                      ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-                  }`}
-                >
-                  <Layers className="w-3.5 h-3.5" />
-                  <span>Interactive Vehicle Lab</span>
-                </button>
+              <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold">
+                {system.id === 'engine' ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        setEngineSimMode('ice');
+                        setActiveViewMode('simulation');
+                      }}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                        activeViewMode === 'simulation' && engineSimMode === 'ice'
+                          ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Flame className="w-3.5 h-3.5 text-amber-500" />
+                      <span>{t.systemDetail.iceEngineTab}</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setEngineSimMode('ev');
+                        setActiveViewMode('simulation');
+                      }}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                        activeViewMode === 'simulation' && engineSimMode === 'ev'
+                          ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Zap className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>{t.systemDetail.evMotorTab}</span>
+                    </button>
+                    <button
+                      onClick={() => setActiveViewMode('lab')}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                        activeViewMode === 'lab'
+                          ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Layers className="w-3.5 h-3.5" />
+                      <span>{t.systemDetail.subsystemLabTab}</span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => setActiveViewMode('simulation')}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                        activeViewMode === 'simulation'
+                          ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Activity className="w-3.5 h-3.5" />
+                      <span>{t.systemDetail.animationTitle}</span>
+                    </button>
+                    <button
+                      onClick={() => setActiveViewMode('lab')}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                        activeViewMode === 'lab'
+                          ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Layers className="w-3.5 h-3.5" />
+                      <span>{t.systemDetail.subsystemLabTab}</span>
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 
@@ -186,7 +234,13 @@ export const SystemDetailPage: React.FC = () => {
                 <div className="pt-2">
                   <VehicleExplorer
                     initialSystem={system.id as any}
-                    initialComponent={components[0]?.id || 'cylinder-block'}
+                    initialComponent={
+                      system.id === 'engine'
+                        ? engineSimMode === 'ev'
+                          ? 'electric-motor'
+                          : 'cylinder-block'
+                        : components[0]?.id || 'cylinder-block'
+                    }
                     onAskAI={(prompt, ctx) => {
                       navigate(`/assistant?q=${encodeURIComponent(prompt)}&ctx=${encodeURIComponent(ctx)}`);
                     }}

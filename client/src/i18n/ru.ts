@@ -88,6 +88,9 @@ export const ru = {
     relatedTitle: 'Взаимосвязанные системы автомобиля',
     quizTitle: 'Проверка знаний по этой системе',
     askAI: 'Спросить AI об этой системе',
+    iceEngineTab: '4-тактный цикл ДВС',
+    evMotorTab: 'Электромотор и инвертор EV',
+    subsystemLabTab: 'Интерактивная 3D лаборатория',
   },
   animations: {
     play: 'Запуск симуляции',
