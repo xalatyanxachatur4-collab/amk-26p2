@@ -17,6 +17,7 @@ import {
   CheckCircle2,
   Workflow,
   Cpu,
+  History,
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext.js';
 import { systemsData } from '../data/systemsData.js';
@@ -235,7 +236,33 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. AI TUTOR & LEARNING CENTER DUAL PROMO */}
+      {/* 5. HISTORY & STATS FEATURE BANNER */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold uppercase tracking-wider">
+              <History className="w-3.5 h-3.5" />
+              <span>{t.nav.history}</span>
+            </div>
+            <h3 className="text-2xl font-bold">
+              {t.historyPage.title}
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              {t.historyPage.subtitle}
+            </p>
+          </div>
+
+          <Link
+            to="/history"
+            className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-cyan-500/25 active:scale-95 transition-all"
+          >
+            <span>{t.nav.history}</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* 6. AI TUTOR & LEARNING CENTER DUAL PROMO */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* AI Assistant Card */}
         <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col justify-between space-y-6">

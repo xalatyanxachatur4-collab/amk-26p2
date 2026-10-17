@@ -5,6 +5,7 @@ import { useLanguage } from '../../context/LanguageContext.js';
 import { systemsData } from '../../data/systemsData.js';
 import { glossaryTerms } from '../../data/glossaryData.js';
 import { masterQuizQuestions } from '../../data/quizData.js';
+import { historyData } from '../../data/historyData.js';
 
 interface GlobalSearchModalProps {
   isOpen: boolean;
@@ -13,7 +14,7 @@ interface GlobalSearchModalProps {
 
 interface SearchResultItem {
   id: string;
-  type: 'system' | 'component' | 'glossary' | 'quiz';
+  type: 'system' | 'component' | 'glossary' | 'quiz' | 'history';
   title: string;
   snippet: string;
   link: string;
@@ -119,6 +120,47 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
         });
       }
     });
+
+    // 5. Search History Milestones & ErAZ
+    historyData.timelineEvents.forEach((ev) => {
+      const title = localize(ev.title);
+      const desc = localize(ev.description);
+      const pion = localize(ev.pioneers);
+      if (
+        title.toLowerCase().includes(normalizedQuery) ||
+        desc.toLowerCase().includes(normalizedQuery) ||
+        pion.toLowerCase().includes(normalizedQuery) ||
+        ev.year.includes(normalizedQuery)
+      ) {
+        results.push({
+          id: `hist-${ev.id}`,
+          type: 'history',
+          title: `${ev.year} • ${title}`,
+          snippet: desc.slice(0, 110) + '...',
+          link: '/history',
+        });
+      }
+    });
+
+    // 6. Search Country Philosophies
+    historyData.countries.forEach((c) => {
+      const cName = localize(c.countryName);
+      const phil = localize(c.philosophyDescription);
+      const brands = c.iconicBrands.join(' ');
+      if (
+        cName.toLowerCase().includes(normalizedQuery) ||
+        phil.toLowerCase().includes(normalizedQuery) ||
+        brands.toLowerCase().includes(normalizedQuery)
+      ) {
+        results.push({
+          id: `country-${c.id}`,
+          type: 'history',
+          title: `${c.flag} ${cName} — ${brands.slice(0, 30)}...`,
+          snippet: phil.slice(0, 110) + '...',
+          link: '/history',
+        });
+      }
+    });
   }
 
   const handleSelect = (link: string) => {
@@ -194,6 +236,8 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
                           ? 'bg-blue-100 text-blue-800 dark:bg-blue-950/80 dark:text-blue-300'
                           : item.type === 'glossary'
                           ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300'
+                          : item.type === 'history'
+                          ? 'bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-300'
                           : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300'
                       }`}
                     >

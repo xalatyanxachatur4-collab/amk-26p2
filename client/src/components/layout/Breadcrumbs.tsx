@@ -37,6 +37,8 @@ export const Breadcrumbs: React.FC = () => {
             displayName = t.nav.systemsTogether;
           } else if (name === 'learning') {
             displayName = t.nav.learning;
+          } else if (name === 'history') {
+            displayName = t.nav.history;
           } else if (name === 'quiz') {
             displayName = t.nav.quiz;
           } else if (name === 'assistant') {

@@ -16,6 +16,7 @@ import { LearningCenterPage } from './pages/LearningCenterPage.js';
 import { QuizPage } from './pages/QuizPage.js';
 import { AIAssistantPage } from './pages/AIAssistantPage.js';
 import { GlossaryPage } from './pages/GlossaryPage.js';
+import { HistoryPage } from './pages/HistoryPage.js';
 import { AboutPage } from './pages/AboutPage.js';
 
 import { ErrorBoundary } from './components/ui/ErrorBoundary.js';
@@ -45,6 +46,7 @@ export const App: React.FC = () => {
                   <Route path="/learning" element={<LearningCenterPage />} />
                   <Route path="/quiz" element={<QuizPage />} />
                   <Route path="/assistant" element={<AIAssistantPage />} />
+                  <Route path="/history" element={<HistoryPage />} />
                   <Route path="/glossary" element={<GlossaryPage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="*" element={<Navigate to="/" replace />} />

@@ -150,6 +150,17 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch }) => {
           </Link>
 
           <Link
+            to="/history"
+            className={`px-3 py-1.5 rounded-md transition-colors ${
+              isActive('/history')
+                ? 'text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/40 font-semibold'
+                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            {t.nav.history}
+          </Link>
+
+          <Link
             to="/quiz"
             className={`px-3 py-1.5 rounded-md transition-colors ${
               isActive('/quiz')
@@ -305,6 +316,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch }) => {
               className="px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
               {t.nav.learning}
+            </Link>
+            <Link
+              to="/history"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+            >
+              {t.nav.history}
             </Link>
             <Link
               to="/quiz"
