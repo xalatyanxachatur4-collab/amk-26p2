@@ -8,6 +8,9 @@ import { VehicleExplorer } from '../components/vehicle/VehicleExplorer.js';
 import { EngineCycleAnimation } from '../components/animations/EngineCycleAnimation.js';
 import { EVMotorAnimation } from '../components/animations/EVMotorAnimation.js';
 import { TransmissionGearAnimation } from '../components/animations/TransmissionGearAnimation.js';
+import { ManualTransmissionAnimation } from '../components/animations/ManualTransmissionAnimation.js';
+import { AutomaticTransmissionAnimation } from '../components/animations/AutomaticTransmissionAnimation.js';
+import { EVReducerAnimation } from '../components/animations/EVReducerAnimation.js';
 import { SuspensionAnimation } from '../components/animations/SuspensionAnimation.js';
 import { BrakingAnimation } from '../components/animations/BrakingAnimation.js';
 import { SteeringAnimation } from '../components/animations/SteeringAnimation.js';
@@ -40,6 +43,7 @@ export const SystemDetailPage: React.FC = () => {
 
   const [activeViewMode, setActiveViewMode] = useState<'simulation' | 'lab'>('simulation');
   const [engineSimMode, setEngineSimMode] = useState<'ice' | 'ev'>('ice');
+  const [transSimMode, setTransSimMode] = useState<'manual' | 'automatic' | 'ev'>('manual');
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number>>({});
   const [revealedQuestions, setRevealedQuestions] = useState<Record<string, boolean>>({});
 
@@ -78,7 +82,9 @@ export const SystemDetailPage: React.FC = () => {
       case 'engine':
         return engineSimMode === 'ice' ? <EngineCycleAnimation /> : <EVMotorAnimation />;
       case 'transmission':
-        return <TransmissionGearAnimation />;
+        if (transSimMode === 'manual') return <ManualTransmissionAnimation />;
+        if (transSimMode === 'automatic') return <AutomaticTransmissionAnimation />;
+        return <EVReducerAnimation />;
       case 'suspension':
         return <SuspensionAnimation />;
       case 'brakes':
@@ -198,6 +204,62 @@ export const SystemDetailPage: React.FC = () => {
                       <span>{t.systemDetail.subsystemLabTab}</span>
                     </button>
                   </>
+                ) : system.id === 'transmission' ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        setTransSimMode('manual');
+                        setActiveViewMode('simulation');
+                      }}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                        activeViewMode === 'simulation' && transSimMode === 'manual'
+                          ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Cog className="w-3.5 h-3.5 text-cyan-500" />
+                      <span>{t.systemDetail.manualTransTab}</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setTransSimMode('automatic');
+                        setActiveViewMode('simulation');
+                      }}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                        activeViewMode === 'simulation' && transSimMode === 'automatic'
+                          ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Layers className="w-3.5 h-3.5 text-blue-500" />
+                      <span>{t.systemDetail.automaticTransTab}</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setTransSimMode('ev');
+                        setActiveViewMode('simulation');
+                      }}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                        activeViewMode === 'simulation' && transSimMode === 'ev'
+                          ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Zap className="w-3.5 h-3.5 text-emerald-500" />
+                      <span>{t.systemDetail.evReducerTab}</span>
+                    </button>
+                    <button
+                      onClick={() => setActiveViewMode('lab')}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                        activeViewMode === 'lab'
+                          ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Layers className="w-3.5 h-3.5" />
+                      <span>{t.systemDetail.subsystemLabTab}</span>
+                    </button>
+                  </>
                 ) : (
                   <>
                     <button
@@ -239,6 +301,10 @@ export const SystemDetailPage: React.FC = () => {
                         ? engineSimMode === 'ev'
                           ? 'electric-motor'
                           : 'cylinder-block'
+                        : system.id === 'transmission'
+                        ? transSimMode === 'ev'
+                          ? 'electric-motor'
+                          : 'gearbox-geartrain'
                         : components[0]?.id || 'cylinder-block'
                     }
                     onAskAI={(prompt, ctx) => {

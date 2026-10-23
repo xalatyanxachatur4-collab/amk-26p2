@@ -91,6 +91,9 @@ export const ru = {
     askAI: 'Спросить AI об этой системе',
     iceEngineTab: '4-тактный цикл ДВС',
     evMotorTab: 'Электромотор и инвертор EV',
+    manualTransTab: 'Механическая КПП (МКПП)',
+    automaticTransTab: 'Автоматическая КПП (АКПП)',
+    evReducerTab: 'Редуктор электромобиля (EV)',
     subsystemLabTab: 'Интерактивная 3D лаборатория',
   },
   animations: {

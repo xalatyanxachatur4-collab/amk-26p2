@@ -25,6 +25,25 @@ describe('SystemDetailPage Rendering', () => {
     expect(container.querySelector('svg')).toBeTruthy();
   });
 
+  it('renders the transmission page and switches between Manual, Automatic, and EV Reducer modes', () => {
+    const { container } = render(
+      <ThemeProvider>
+        <LanguageProvider>
+          <MemoryRouter initialEntries={['/systems/transmission']}>
+            <Routes>
+              <Route path="/systems/:systemId" element={<SystemDetailPage />} />
+            </Routes>
+          </MemoryRouter>
+        </LanguageProvider>
+      </ThemeProvider>
+    );
+
+    expect(screen.getAllByText(/Transmission and Drivetrain/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Manual Transmission/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Automatic Planetary/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/EV Single-Speed Reducer/i).length).toBeGreaterThanOrEqual(1);
+  });
+
   it('renders all 7 system pages correctly', () => {
     const systemIds = Object.keys(systemsData);
     expect(systemIds.length).toBeGreaterThanOrEqual(7);

@@ -91,6 +91,9 @@ export const en = {
     askAI: 'Ask AI Tutor about this system',
     iceEngineTab: '4-Stroke ICE Cycle',
     evMotorTab: 'EV Motor & Inverter',
+    manualTransTab: 'Manual Transmission (MT)',
+    automaticTransTab: 'Automatic Planetary (AT)',
+    evReducerTab: 'EV Single-Speed Reducer',
     subsystemLabTab: 'Interactive Vehicle Lab',
   },
   animations: {

@@ -91,6 +91,9 @@ export const hy = {
     askAI: 'Հարցնել AI օգնականին այս համակարգի մասին',
     iceEngineTab: '4-Տակտ ՆԱՇ ցիկլ',
     evMotorTab: 'Էլեկտրաշարժիչ և ինվերտոր',
+    manualTransTab: 'Մեխանիկական փոխանցման տուփ (ՄՓՏ)',
+    automaticTransTab: 'Ավտոմատ փոխանցման տուփ (ԱՓՏ)',
+    evReducerTab: 'Էլեկտրամոբիլի ռեդուկտոր (EV)',
     subsystemLabTab: 'Ինտերակտիվ 3D լաբորատորիա',
   },
   animations: {

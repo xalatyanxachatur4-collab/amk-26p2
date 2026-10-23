@@ -328,6 +328,24 @@ export const systemsData: Record<string, SystemData> = {
           ru: 'Передает крутящий момент к ступицам колес при изменяющихся углах работы подвески без пульсаций скорости.',
         },
       },
+      {
+        id: 'ev-reducer',
+        name: { en: 'EV Single-Speed Reduction Gearbox', hy: 'Էլեկտրամոբիլի ռեդուկտոր', ru: 'Одноступенчатый редуктор электромобиля' },
+        function: {
+          en: 'Compact compound helical reduction gearset (~9:1 ratio) stepping down high-speed EV motor rotation (up to 18,000 RPM) while multiplying drive torque with >98% mechanical efficiency and zero shift interruptions.',
+          hy: 'Կոմպակտ կոսոզուբ ռեդուկտոր (~9:1), որը նվազեցնում է էլեկտրաշարժիչի բարձր պտույտները (մինչև 18000 պտ/ր)՝ բազմապատկելով մոմենտը 98% ՕԳԳ-ով:',
+          ru: 'Компактный двухступенчатый цилиндрический косозубый редуктор (~9:1), согласующий сверхвысокие обороты электромотора (до 18 000 об/мин) с колесами с КПД >98% без разрыва потока мощности.',
+        },
+      },
+      {
+        id: 'planetary-gearset',
+        name: { en: 'Automatic Epicyclic Planetary Gearset & Brake Bands', hy: 'Ավտոմատ պլանետար փոխանցման համակարգ', ru: 'Планетарный механизм и фрикционы АКПП' },
+        function: {
+          en: 'Sun, planet pinions, and ring gear controlled by hydraulic wet multi-plate clutch packs and brake bands to achieve underdrive, direct 1:1, overdrive, and reverse without physical gear disengagement.',
+          hy: 'Արևային, սատելիտային և պսակաձև ատամնանիվներ, որոնք կառավարվում են հիդրավլիկ ֆրիկցիոններով՝ փոխելով փոխանցումներն առանց քարշուժի ընդհատման:',
+          ru: 'Комплекс из солнечной, коронной шестерен и сателлитов на водиле, управляемый гидравлическими фрикционами и ленточными тормозами для переключения без разрыва потока мощности.',
+        },
+      },
     ],
     operatingSequence: [
       {
