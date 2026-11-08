@@ -17,19 +17,20 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const { messages = [], language = 'ru', systemContext, userLevel = 'intermediate' } = req.body || {};
+    const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+    const { messages = [], language = 'ru', systemContext, userLevel = 'intermediate' } = body;
     const lastUserMsg = messages[messages.length - 1]?.content || '';
 
     const apiKey = process.env.GEMINI_API_KEY || process.env.AI_API_KEY;
 
     if (!apiKey) {
-      console.warn('GEMINI_API_KEY environment variable is not configured');
+      console.warn('GEMINI_API_KEY environment variable is not configured on Vercel');
       return res.status(200).json({
         reply: language === 'hy'
-          ? 'Ողջույն: AI օգնականը կարգավորման փուլում է: Խնդրում ենք համոզվել, որ GEMINI_API_KEY պարամետրը ակտիվ է:'
+          ? 'Ողջույն: AI օգնականը կարգավորման փուլում է: Խնդրում ենք համոզվել, որ GEMINI_API_KEY պարամետրը ակտիվ է Vercel-ի կարգավորումներում:'
           : language === 'ru'
-          ? 'Здравствуйте! Ключ GEMINI_API_KEY не обнаружен в переменных окружения хостинга. Пожалуйста, проверьте переменные окружения в Vercel.'
-          : 'Hello! The GEMINI_API_KEY environment variable is not configured on the hosting platform.',
+          ? 'Здравствуйте! Переменная GEMINI_API_KEY не найдена в Vercel Environment Variables. Пожалуйста, убедитесь, что добавили GEMINI_API_KEY в панели Vercel (Settings → Environment Variables) и выполнили Redeploy.'
+          : 'Hello! The GEMINI_API_KEY environment variable is not configured in Vercel Environment Variables.',
         provider: 'configuration-required',
         model: 'engineering-tutor-v1',
       });
@@ -87,7 +88,7 @@ ${systemContext ? `\n[Current Context]: ${systemContext}` : ''}`;
         if (geminiRes.ok) {
           const data: any = await geminiRes.json();
           const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (candidateText) {
+          if (candidateText && candidateText.trim().length > 0) {
             return res.status(200).json({
               reply: candidateText.trim(),
               provider: 'gemini',
@@ -100,13 +101,13 @@ ${systemContext ? `\n[Current Context]: ${systemContext}` : ''}`;
       }
     }
 
-    // Fallback response if API fails
+    // Fallback response if API call fails
     return res.status(200).json({
       reply: language === 'hy'
-        ? 'Շնորհակալություն հարցի համար: Խնդրում ենք ստուգել կապը կամ կրկնել հարցումը:'
+        ? 'Շնորհակալություն հարցի համար: Կապի խնդրի պատճառով հարցումը չհաջողվեց: Խնդրում ենք կրկնել մի քանի վայրկյանից:'
         : language === 'ru'
-        ? 'Спасибо за вопрос! Пожалуйста, проверьте соединение или повторите запрос через несколько секунд.'
-        : 'Thank you for your question! Please verify connectivity or retry in a few moments.',
+        ? 'Спасибо за вопрос! Произошла задержка ответа от Gemini API. Пожалуйста, повторите запрос через несколько секунд.'
+        : 'Thank you for your question! There was a momentary delay from the Gemini API. Please retry in a few seconds.',
       provider: 'fallback',
       model: 'engineering-tutor-v1',
     });
